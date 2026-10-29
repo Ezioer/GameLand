@@ -23,6 +23,7 @@ internal class Game2048Session(
     private val onStatisticsChange: (String) -> Unit,
     private val onGameChange: (String) -> Unit,
     private val nowLabel: () -> String,
+    private val onStart: () -> Unit = {},
 ) {
     val game get() = gameState.value
     val canContinue get() = gameState.value?.finished == false
@@ -30,6 +31,7 @@ internal class Game2048Session(
 
     fun startGame() {
         saveGame(Game2048Game.start())
+        onStart()
         updateStatistics(statistics.started())
     }
 
@@ -55,14 +57,15 @@ internal class Game2048Session(
 @Composable
 internal fun rememberGame2048Session(initialStatistics: String,
     onStatisticsChange: (String) -> Unit, initialGame: String,
-    onGameChange: (String) -> Unit, nowLabel: () -> String): Game2048Session {
+    onGameChange: (String) -> Unit, nowLabel: () -> String,
+    onStart: () -> Unit = {}): Game2048Session {
     val game = rememberSaveable(saver = gameSaver) {
         mutableStateOf(restoreGame2048(initialGame))
     }
     val statistics = rememberSaveable(saver = statisticsSaver) {
         mutableStateOf(Game2048Statistics.restore(initialStatistics))
     }
-    return remember(game, statistics, onStatisticsChange, onGameChange, nowLabel) {
-        Game2048Session(game, statistics, onStatisticsChange, onGameChange, nowLabel)
+    return remember(game, statistics, onStatisticsChange, onGameChange, nowLabel, onStart) {
+        Game2048Session(game, statistics, onStatisticsChange, onGameChange, nowLabel, onStart)
     }
 }

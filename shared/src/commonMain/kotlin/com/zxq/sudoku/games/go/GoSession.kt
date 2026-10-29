@@ -20,6 +20,7 @@ internal class GoSession(
     private val onStatisticsChange: (String) -> Unit,
     private val nowMillis: () -> Long,
     private val nowLabel: () -> String,
+    private val onStart: () -> Unit = {},
 ) {
     val game get() = gameState.value
     val statistics get() = statisticsState.value
@@ -27,6 +28,7 @@ internal class GoSession(
     fun startGame(mode: GoMode, level: GoLevel? = null) {
         activeStart.value = nowMillis() to nowLabel()
         gameState.value = GoGame(mode, level)
+        onStart()
     }
 
     fun changeGame(next: GoGame) {
@@ -54,14 +56,16 @@ internal fun rememberGoSession(
     initialStatistics: String,
     onStatisticsChange: (String) -> Unit,
     nowLabel: () -> String,
+    onStart: () -> Unit = {},
 ): GoSession {
     val game = remember { mutableStateOf<GoGame?>(null) }
     val activeStart = remember { mutableStateOf<Pair<Long, String>?>(null) }
     val statistics = rememberSaveable(saver = goStatisticsSaver) {
         mutableStateOf(GoStatistics.restore(initialStatistics))
     }
-    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel) {
+    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel, onStart) {
         GoSession(game, activeStart, statistics, onStatisticsChange,
-            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel)
+            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel,
+            onStart = onStart)
     }
 }

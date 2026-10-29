@@ -21,8 +21,15 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.zxq.sudoku"
+            packageName = "游戏小岛"
             packageVersion = "1.0.0"
+
+            // 可选：配置快捷方式和图标
+            windows {
+                iconFile.set(project.file("src/main/resources/assets/game.ico")) // 必须是 .ico 格式
+                menu = true // 是否在开始菜单创建快捷方式
+                shortcut = true // 是否在桌面创建快捷方式
+            }
         }
     }
 }

@@ -20,6 +20,7 @@ internal class GomokuSession(
     private val onStatisticsChange: (String) -> Unit,
     private val nowMillis: () -> Long,
     private val nowLabel: () -> String,
+    private val onStart: () -> Unit = {},
 ) {
     val game get() = gameState.value
     val statistics get() = statisticsState.value
@@ -27,6 +28,7 @@ internal class GomokuSession(
     fun startGame(mode: GomokuMode, level: GomokuLevel? = null) {
         activeStart.value = nowMillis() to nowLabel()
         gameState.value = GomokuGame(mode, level)
+        onStart()
     }
 
     fun changeGame(next: GomokuGame) {
@@ -54,14 +56,16 @@ internal fun rememberGomokuSession(
     initialStatistics: String,
     onStatisticsChange: (String) -> Unit,
     nowLabel: () -> String,
+    onStart: () -> Unit = {},
 ): GomokuSession {
     val game = remember { mutableStateOf<GomokuGame?>(null) }
     val activeStart = remember { mutableStateOf<Pair<Long, String>?>(null) }
     val statistics = rememberSaveable(saver = gomokuStatisticsSaver) {
         mutableStateOf(GomokuStatistics.restore(initialStatistics))
     }
-    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel) {
+    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel, onStart) {
         GomokuSession(game, activeStart, statistics, onStatisticsChange,
-            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel)
+            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel,
+            onStart = onStart)
     }
 }

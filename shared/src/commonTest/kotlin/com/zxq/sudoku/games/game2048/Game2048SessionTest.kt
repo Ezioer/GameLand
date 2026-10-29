@@ -9,12 +9,14 @@ class Game2048SessionTest {
     @Test
     fun returningKeepsProgressAndStartingAgainCreatesNewRound() {
         var savedGame = ""
+        var startedRounds = 0
         val session = Game2048Session(
             gameState = mutableStateOf<Game2048Game?>(null),
             statisticsState = mutableStateOf(Game2048Statistics()),
             onStatisticsChange = {},
             onGameChange = { savedGame = it },
             nowLabel = { "2026-10-23" },
+            onStart = { startedRounds++ },
         )
 
         session.startGame()
@@ -26,8 +28,10 @@ class Game2048SessionTest {
         assertTrue(session.canContinue)
         assertEquals(next, restoreGame2048(savedGame))
         assertEquals(played, session.statistics.played)
+        assertEquals(1, startedRounds)
 
         session.startGame()
+        assertEquals(2, startedRounds)
         assertEquals(played + 1, session.statistics.played)
         assertEquals(0, session.game?.score)
         assertEquals(0, session.game?.moves)

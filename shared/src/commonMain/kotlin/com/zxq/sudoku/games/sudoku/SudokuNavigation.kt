@@ -19,6 +19,8 @@ internal fun NavGraphBuilder.sudokuDestinations(
     navController: NavHostController,
     session: SudokuSession,
     returnToMain: () -> Unit,
+    darkTheme: Boolean,
+    onPaletteChange: (GamePalette) -> Unit,
 ) {
     composable("${AppRoute.SudokuStatisticsDetail}/{difficulty}") { entry ->
         val difficulty = SudokuDifficulty.entries.firstOrNull {
@@ -61,9 +63,9 @@ internal fun NavGraphBuilder.sudokuDestinations(
             SudokuScreen(
                 game = game,
                 difficultyStatistics = session.statistics.forDifficulty(game.puzzle.difficulty),
-                palette = session.palette,
+                palette = if (darkTheme) GamePalette.Black else session.palette,
                 fontSize = session.fontSize,
-                onPaletteChange = { session.palette = it },
+                onPaletteChange = onPaletteChange,
                 onFontSizeChange = { session.fontSize = it },
                 onGameChange = session::changeGame,
                 onNoteToggle = { session.requestNoteToggle(NoteTutorialTarget.Classic) },
@@ -101,9 +103,9 @@ internal fun NavGraphBuilder.sudokuDestinations(
             BackHandler(enabled = !exiting, onBack = exitBattle)
             BattleScreen(
                 battle = battle,
-                palette = session.palette,
+                palette = if (darkTheme) GamePalette.Black else session.palette,
                 fontSize = session.fontSize,
-                onPaletteChange = { session.palette = it },
+                onPaletteChange = onPaletteChange,
                 onFontSizeChange = { session.fontSize = it },
                 onBattleChange = session::changeBattle,
                 onNoteToggle = { player ->

@@ -20,6 +20,7 @@ internal class ChessSession(
     private val onStatisticsChange: (String) -> Unit,
     private val nowMillis: () -> Long,
     private val nowLabel: () -> String,
+    private val onStart: () -> Unit = {},
 ) {
     val game get() = gameState.value
     val statistics get() = statisticsState.value
@@ -33,6 +34,7 @@ internal class ChessSession(
     fun startGame(mode: ChessMode, level: ChessLevel? = null, puzzleIndex: Int? = null) {
         activeStart.value = nowMillis() to nowLabel()
         gameState.value = newChessGame(mode, level, puzzleIndex)
+        onStart()
     }
 
     fun changeGame(next: ChessGame) {
@@ -57,14 +59,16 @@ internal fun rememberChessSession(
     initialStatistics: String,
     onStatisticsChange: (String) -> Unit,
     nowLabel: () -> String,
+    onStart: () -> Unit = {},
 ): ChessSession {
     val game = remember { mutableStateOf<ChessGame?>(null) }
     val activeStart = remember { mutableStateOf<Pair<Long, String>?>(null) }
     val statistics = rememberSaveable(saver = chessStatisticsSaver) {
         mutableStateOf(ChessStatistics.restore(initialStatistics))
     }
-    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel) {
+    return remember(game, activeStart, statistics, onStatisticsChange, nowLabel, onStart) {
         ChessSession(game, activeStart, statistics, onStatisticsChange,
-            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel)
+            nowMillis = { Clock.System.now().toEpochMilliseconds() }, nowLabel = nowLabel,
+            onStart = onStart)
     }
 }

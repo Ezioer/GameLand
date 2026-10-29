@@ -80,8 +80,8 @@ internal fun GoIslandRoute(onBack: () -> Unit, onHuman: (GoLevel) -> Unit, onFri
     var chooseLevel by remember { mutableStateOf(false) }
     var replay by remember { mutableIntStateOf(0) }
     Column(
-        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).safeDrawingPadding()
-            .verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
+        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState()).padding(horizontal = 24.dp, vertical = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(Modifier.widthIn(max = 680.dp).fillMaxWidth()) {
@@ -149,7 +149,7 @@ internal fun GoIslandRoute(onBack: () -> Unit, onHuman: (GoLevel) -> Unit, onFri
 @Composable
 private fun GoModeCard(title: String, subtitle: String, number: String, color: Color, onClick: () -> Unit) {
     Card(Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = color)) {
+        colors = CardDefaults.cardColors(containerColor = color, contentColor = Ink)) {
         Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
             Surface(shape = RoundedCornerShape(16.dp), color = Color.White.copy(alpha = 0.65f)) {
                 Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
@@ -175,7 +175,7 @@ private fun GoTutorial(replay: Int) {
     val board = remember(step) {
         moves.take(step).fold(GoGame(GoMode.Friend)) { game, point -> game.place(point) ?: game }.board
     }
-    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6)) {
+    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6), contentColor = Ink) {
         Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Box(Modifier.widthIn(max = 260.dp).fillMaxWidth()) {
                 GoBoard(board, lastMove = moves.getOrNull(step - 1), enabled = false, onPoint = {})

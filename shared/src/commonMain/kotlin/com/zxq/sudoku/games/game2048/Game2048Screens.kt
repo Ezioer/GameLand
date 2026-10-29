@@ -75,8 +75,8 @@ private val BoardBackground = Color(0xFFE8CC9D)
 internal fun Game2048IslandRoute(statistics: Game2048Statistics, canContinue: Boolean,
     onBack: () -> Unit, onStart: () -> Unit, onContinue: () -> Unit) {
     var replay by remember { mutableIntStateOf(0) }
-    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).safeDrawingPadding()
-        .verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
+    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+        .verticalScroll(rememberScrollState()).padding(horizontal = 24.dp, vertical = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         Column(Modifier.widthIn(max = 680.dp).fillMaxWidth()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -133,7 +133,7 @@ private fun Game2048Tutorial(replay: Int) {
             listOf(8, 0, 0, 0) + List(12) { 0 },
         )
     }
-    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6)) {
+    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6), contentColor = Ink) {
         Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Box(Modifier.widthIn(max = 260.dp).fillMaxWidth()) { Game2048Board(boards[step]) }
             Spacer(Modifier.height(10.dp))
@@ -198,7 +198,12 @@ internal fun Game2048GameRoute(game: Game2048Game, statistics: Game2048Statistic
                         style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     Text("目标 2048", color = IslandGreen, style = MaterialTheme.typography.labelLarge)
                 }
-                Spacer(Modifier.height(18.dp))
+                Spacer(Modifier.height(10.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Game2048ScoreCard("本局", game.score, Modifier.weight(1f))
+                    Game2048ScoreCard("最高", statistics.bestScore, Modifier.weight(1f))
+                }
+                Spacer(Modifier.height(10.dp))
                 val boardContent: @Composable () -> Unit = {
                     Box(Modifier.fillMaxWidth().pointerInput(slide) {
                         var drag = Offset.Zero
@@ -225,10 +230,6 @@ internal fun Game2048GameRoute(game: Game2048Game, statistics: Game2048Statistic
                 }
                 val controls: @Composable () -> Unit = {
                     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                            Game2048ScoreCard("本局", game.score, Modifier.weight(1f))
-                            Game2048ScoreCard("最高", statistics.bestScore, Modifier.weight(1f))
-                        }
                         Text("已走 ${game.moves} 步 · 最大方块 ${game.maxTile}",
                             style = MaterialTheme.typography.bodyMedium)
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {

@@ -168,7 +168,7 @@ private fun ChessChoice(title: String, subtitle: String, onClick: () -> Unit) {
 @Composable
 private fun ChessModeCard(title: String, subtitle: String, number: String, color: Color, onClick: () -> Unit) {
     Card(Modifier.fillMaxWidth().clickable(onClick = onClick), shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = color)) {
+        colors = CardDefaults.cardColors(containerColor = color, contentColor = Ink)) {
         Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
             Surface(shape = RoundedCornerShape(16.dp), color = Color.White.copy(alpha = 0.65f)) {
                 Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
@@ -191,7 +191,7 @@ private fun ChessTutorial(replay: Int) {
         repeat(3) { delay(2_400); step = it + 1 }
     }
     val lines = listOf("红方先行，棋子落在交叉点。", "车走直线；马走日，注意蹩马腿。", "炮隔一子才能吃子；将帅不能照面。", "保护自己的将帅，吃将或困住对方即可获胜。")
-    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6)) {
+    Surface(shape = RoundedCornerShape(22.dp), color = Color(0xFFFFFDF6), contentColor = Ink) {
         Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Box(Modifier.widthIn(max = 260.dp).fillMaxWidth()) {
                 ChessBoard(

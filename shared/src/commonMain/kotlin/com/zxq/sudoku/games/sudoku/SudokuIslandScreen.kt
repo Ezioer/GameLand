@@ -225,6 +225,7 @@ private fun SudokuTutorialPreview(replayKey: Int) {
         modifier = Modifier.widthIn(max = 360.dp).fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
         color = Color(0xFFFFFDF6),
+        contentColor = Ink,
     ) {
         Column(
             Modifier.fillMaxWidth().padding(14.dp),
@@ -297,7 +298,7 @@ private fun FeatureCard(
 ) {
     Card(
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = color),
+        colors = CardDefaults.cardColors(containerColor = color, contentColor = Ink),
         modifier = Modifier.fillMaxWidth().then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
     ) {
         Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {

@@ -39,13 +39,18 @@ internal class SudokuSession(
     private val onNoteTutorialSeen: () -> Unit,
     private val onStatisticsChange: (String) -> Unit,
     private val currentDate: () -> String,
+    private val onStart: () -> Unit = {},
+    private val onGamePaletteChange: ((GamePalette) -> Unit)? = null,
 ) {
     val game: SudokuGame? get() = gameState.value
     val battle: SudokuBattle? get() = battleState.value
     val statistics: GameStatistics get() = statisticsState.value
     var palette: GamePalette
         get() = paletteState.value
-        set(value) { paletteState.value = value }
+        set(value) {
+            if (onGamePaletteChange == null) paletteState.value = value
+            else onGamePaletteChange(value)
+        }
     var fontSize: GameFontSize
         get() = fontSizeState.value
         set(value) { fontSizeState.value = value }
@@ -60,12 +65,14 @@ internal class SudokuSession(
     fun startGame(difficulty: SudokuDifficulty) {
         game?.let { saveStatistics(statistics.left(it)) }
         gameState.value = SudokuGame.start(SudokuPuzzle.create(difficulty))
+        onStart()
         saveStatistics(statistics.started(difficulty, currentDate()))
         beginnerTutorialState.value = difficulty == SudokuDifficulty.Beginner && !beginnerSeenState.value
     }
 
     fun startBattle(difficulty: SudokuDifficulty) {
         battleState.value = SudokuBattle.start(SudokuPuzzle.create(difficulty))
+        onStart()
         beginnerTutorialState.value = difficulty == SudokuDifficulty.Beginner && !beginnerSeenState.value
     }
 
@@ -147,13 +154,17 @@ internal fun rememberSudokuSession(
     initialStatistics: String,
     onStatisticsChange: (String) -> Unit,
     currentDate: () -> String,
+    onStart: () -> Unit = {},
+    sharedPaletteState: MutableState<GamePalette>? = null,
+    onGamePaletteChange: ((GamePalette) -> Unit)? = null,
 ): SudokuSession {
     val game = rememberSaveable(saver = gameSaver) { mutableStateOf<SudokuGame?>(null) }
     val battle = rememberSaveable(saver = battleSaver) { mutableStateOf<SudokuBattle?>(null) }
     val statistics = rememberSaveable(saver = statisticsSaver) {
         mutableStateOf(GameStatistics.restore(initialStatistics))
     }
-    val palette = rememberSaveable { mutableStateOf(GamePalette.Island) }
+    val localPalette = rememberSaveable { mutableStateOf(GamePalette.Island) }
+    val palette = sharedPaletteState ?: localPalette
     val fontSize = rememberSaveable { mutableStateOf(GameFontSize.Medium) }
     val beginnerSeen = rememberSaveable { mutableStateOf(initialBeginnerTutorialSeen) }
     val beginnerTutorial = rememberSaveable { mutableStateOf(false) }
@@ -161,7 +172,8 @@ internal fun rememberSudokuSession(
     val noteTarget = rememberSaveable { mutableStateOf<NoteTutorialTarget?>(null) }
     return SudokuSession(
         game, battle, statistics, palette, fontSize, beginnerSeen, beginnerTutorial, noteSeen, noteTarget,
-        onBeginnerTutorialSeen, onNoteTutorialSeen, onStatisticsChange, currentDate,
+        onBeginnerTutorialSeen, onNoteTutorialSeen, onStatisticsChange, currentDate, onStart,
+        onGamePaletteChange,
     )
 }
 
