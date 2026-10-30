@@ -1,4 +1,4 @@
-name: Deploy web to Cloudflare Workers
+name: Deploy web to Cloudflare Pages
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-worker-${{ github.ref }}
+  group: cloudflare-pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -47,22 +47,22 @@ jobs:
       - name: Check build output
         run: test -f webApp/build/dist/wasmJs/productionExecutable/index.html
 
-      - name: Deploy production branch
-        if: github.ref_name == 'xiaoqing-island'
+      - name: Deploy to Pages
+        id: pages
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4.136.3'
-          command: deploy
+          command: pages deploy webApp/build/dist/wasmJs/productionExecutable --project-name=muse-island --branch=${{ github.ref_name }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload branch preview
-        if: github.ref_name != 'xiaoqing-island'
-        uses: cloudflare/wrangler-action@v4
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.136.3'
-          command: versions upload
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check production deployment
+        if: github.ref_name == 'xiaoqing-island'
+        env:
+          PAGES_ENVIRONMENT: ${{ steps.pages.outputs.pages-environment }}
+        run: |
+          if [ "$PAGES_ENVIRONMENT" != "production" ]; then
+            echo "::error::Pages project production branch must be xiaoqing-island"
+            exit 1
+          fi
