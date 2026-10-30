@@ -9,4 +9,4 @@ GitHub 仓库 `Ezioer/GameLand` 的 Settings → Secrets and variables → Actio
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID |
 | `CLOUDFLARE_API_TOKEN` | 具有该账号 **Cloudflare Pages: Edit** 权限的 API Token |
 
-不要将 Secret 值写入仓库。Pages 项目的生产分支必须是 `xiaoqing-island`；工作流会检查正式分支上传后的部署环境。如果该 Pages 项目还启用了 Cloudflare 自带的 Git 自动构建，应关闭重复的自动部署。
+不要将 Secret 值写入仓库。正式分支运行时，工作流会通过 Cloudflare API 检查并设置 Pages 项目的生产分支为 `xiaoqing-island`，再上传产物并验证部署环境。如果该 Pages 项目还启用了 Cloudflare 自带的 Git 自动构建，应关闭重复的自动部署。

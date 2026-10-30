@@ -47,6 +47,24 @@ jobs:
       - name: Check build output
         run: test -f webApp/build/dist/wasmJs/productionExecutable/index.html
 
+      - name: Ensure Pages production branch
+        if: github.ref_name == 'xiaoqing-island'
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          project_url="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/muse-island"
+          project=$(curl --fail --silent --show-error "$project_url" \
+            --header "Authorization: Bearer ${CF_API_TOKEN}")
+          branch=$(jq -r '.result.production_branch // empty' <<< "$project")
+          if [ "$branch" != "xiaoqing-island" ]; then
+            curl --fail --silent --show-error --request PATCH "$project_url" \
+              --header "Authorization: Bearer ${CF_API_TOKEN}" \
+              --header 'Content-Type: application/json' \
+              --data '{"production_branch":"xiaoqing-island"}' \
+              | jq -e '.success and (.result.production_branch == "xiaoqing-island")' > /dev/null
+          fi
+
       - name: Deploy to Pages
         id: pages
         uses: cloudflare/wrangler-action@v4
