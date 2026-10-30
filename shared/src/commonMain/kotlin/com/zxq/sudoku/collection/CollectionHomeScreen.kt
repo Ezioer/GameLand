@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -33,6 +34,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,6 +49,7 @@ import com.zxq.sudoku.theme.Ink
 @Composable
 internal fun CollectionHomeRoute(
     statistics: GameStatistics,
+    onBack: () -> Unit,
     onSudokuClick: () -> Unit,
     onChessClick: () -> Unit,
     onGomokuClick: () -> Unit,
@@ -64,6 +67,7 @@ internal fun CollectionHomeRoute(
     var pendingGame by rememberSaveable { mutableStateOf<CollectionGame?>(null) }
     CollectionHomeScreen(
         statistics = statistics,
+        onBack = onBack,
         onGameClick = { game ->
             when (game) {
                 CollectionGame.Sudoku -> onSudokuClick()
@@ -96,6 +100,7 @@ internal fun CollectionHomeRoute(
 @Composable
 internal fun CollectionHomeScreen(
     statistics: GameStatistics,
+    onBack: () -> Unit,
     onGameClick: (CollectionGame) -> Unit,
     onStatisticsClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -111,6 +116,10 @@ internal fun CollectionHomeScreen(
         ) {
             Column(Modifier.widthIn(max = 900.dp).fillMaxWidth()) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    FilledTonalIconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回我的项目")
+                    }
+                    Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
                         Text("益智小岛", style = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold)

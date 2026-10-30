@@ -1,0 +1,68 @@
+name: Deploy web to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - '**'
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: cloudflare-worker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Cloudflare configuration
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          for name in CF_API_TOKEN CF_ACCOUNT_ID; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not configured in GitHub Actions"
+              exit 1
+            fi
+          done
+
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build Web app
+        run: bash ./gradlew :webApp:wasmJsBrowserDistribution --no-daemon
+
+      - name: Check build output
+        run: test -f webApp/build/dist/wasmJs/productionExecutable/index.html
+
+      - name: Deploy production branch
+        if: github.ref_name == 'xiaoqing-island'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.136.3'
+          command: deploy
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload branch preview
+        if: github.ref_name != 'xiaoqing-island'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.136.3'
+          command: versions upload
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

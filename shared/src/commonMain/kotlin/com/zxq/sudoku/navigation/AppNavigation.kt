@@ -35,6 +35,7 @@ import com.zxq.sudoku.collection.CollectionHomeRoute
 import com.zxq.sudoku.collection.CollectionGame
 import com.zxq.sudoku.collection.CollectionPlaySession
 import com.zxq.sudoku.collection.CollectionStatisticsScreen
+import com.zxq.sudoku.projects.ProjectsHomeScreen
 import com.zxq.sudoku.games.minesweeper.MinesweeperStatus
 import com.zxq.sudoku.games.chess.chessDestinations
 import com.zxq.sudoku.games.chess.ChessSession
@@ -69,6 +70,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 internal object AppRoute {
+    const val Projects = "projects"
     const val Home = "home"
     const val Statistics = "statistics"
     const val Settings = "settings"
@@ -140,7 +142,7 @@ internal fun AppNavigation(
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
-    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: AppRoute.Home
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: AppRoute.Projects
     val activeGame = when {
         !isAppForeground -> null
         currentRoute == AppRoute.SudokuSingle && session.game?.finished == false &&
@@ -187,6 +189,11 @@ internal fun AppNavigation(
         navController.navigateUp()
         Unit
     }
+    val returnToProjects: () -> Unit = {
+        navigationScope.launch(start = CoroutineStart.UNDISPATCHED) { navigationSuiteState.hide() }
+        navController.navigateUp()
+        Unit
+    }
     LaunchedEffect(navController, navigationSuiteState) {
         navController.currentBackStackEntryFlow.collectLatest { entry ->
             if (MainTab.entries.any { it.route == entry.destination.route }) {
@@ -224,7 +231,7 @@ internal fun AppNavigation(
     ) {
         NavHost(
             navController = navController,
-            startDestination = AppRoute.Home,
+            startDestination = AppRoute.Projects,
             enterTransition = {
                 fadeIn(tween(280)) + slideInVertically(tween(320, easing = FastOutSlowInEasing)) { -it / 12 }
             },
@@ -238,9 +245,14 @@ internal fun AppNavigation(
                 fadeOut(tween(180)) + slideOutVertically(tween(260, easing = FastOutSlowInEasing)) { -it / 12 }
             },
         ) {
+            composable(AppRoute.Projects) {
+                ProjectsHomeScreen(onGameIslandClick = { navController.navigate(AppRoute.Home) })
+            }
             composable(AppRoute.Home) {
+                BackHandler(onBack = returnToProjects)
                 CollectionHomeRoute(
                     statistics = session.statistics,
+                    onBack = returnToProjects,
                     onSudokuClick = { navController.navigate(AppRoute.SudokuIsland) },
                     onChessClick = { navController.navigate(AppRoute.ChessIsland) },
                     onGomokuClick = { navController.navigate(AppRoute.GomokuIsland) },
