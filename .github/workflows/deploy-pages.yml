@@ -45,7 +45,9 @@ jobs:
         run: bash ./gradlew :webApp:wasmJsBrowserDistribution --no-daemon
 
       - name: Check build output
-        run: test -f webApp/build/dist/wasmJs/productionExecutable/index.html
+        run: |
+          test -f webApp/build/dist/wasmJs/productionExecutable/index.html
+          test -f webApp/build/dist/wasmJs/productionExecutable/cycling/index.html
 
       - name: Ensure Pages production branch
         if: github.ref_name == 'xiaoqing-island'

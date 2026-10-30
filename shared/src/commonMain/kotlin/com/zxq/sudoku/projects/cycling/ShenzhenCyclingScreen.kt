@@ -112,7 +112,7 @@ internal fun ShenzhenCyclingScreen(onBack: () -> Unit) {
     var selectedIndex by remember { mutableStateOf(0) }
     Column(
         Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
-            .safeDrawingPadding().padding(horizontal = 20.dp, vertical = 12.dp),
+            .safeDrawingPadding().padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         BoxWithConstraints(Modifier.fillMaxSize()) {

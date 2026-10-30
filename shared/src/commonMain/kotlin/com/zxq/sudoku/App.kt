@@ -76,6 +76,7 @@ fun App(
     matchTransport: MatchTransport = UnavailableMatchTransport,
     currentDate: () -> String = { Clock.System.now().toString().take(10) },
     currentDateTime: () -> String = { Clock.System.now().toString().take(19).replace('T', ' ') + " UTC" },
+    onCyclingWebClick: (() -> Unit)? = null,
 ) {
     val appearance = rememberAppAppearance(initialThemeMode, onThemeModeChange,
         initialBackgroundPalette, onBackgroundPaletteChange)
@@ -131,7 +132,7 @@ fun App(
         AppNavigation(sudokuSession, chessSession, gomokuSession, goSession,
             game2048Session, sokobanSession, klotskiSession, internationalChessSession, tetrisSession,
             mazeSession, minesweeperSession, playSession, isAppForeground, appearance, dark,
-            tetrisMatch)
+            tetrisMatch, onCyclingWebClick = onCyclingWebClick)
     }
 }
 

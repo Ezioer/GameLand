@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="探索深圳的海滨、河岸与山林骑行路线。">
+    <title>深圳骑行路线 · muse-island</title>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@6.15.0/dist/maplibre-gl.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main class="layout">
+        <aside class="sidebar" aria-label="骑行路线列表">
+            <header class="page-header">
+                <a class="back-link" href="/" aria-label="返回 muse-island">←</a>
+                <div>
+                    <h1>深圳骑行路线</h1>
+                    <p>选一条路线，去看看城市的另一面</p>
+                </div>
+            </header>
+            <h2 class="list-heading">路线 · 5 条</h2>
+            <div id="route-list" class="route-list"></div>
+        </aside>
+
+        <article class="detail" aria-live="polite">
+            <div class="map-frame">
+                <div id="map" role="img" aria-label="所选骑行路线的地图"></div>
+                <div id="map-error" class="map-error" hidden>地图暂时无法加载，请稍后重试。</div>
+            </div>
+            <p class="map-note">地图标记仅供位置参考；尚无经过核实的骑行轨迹，不用于导航。</p>
+            <div class="stats" aria-label="路线数据">
+                <div class="stat"><span>距离</span><strong id="distance"></strong></div>
+                <div class="stat"><span>难度</span><strong id="difficulty"></strong></div>
+                <div class="stat"><span>预计耗时</span><strong id="duration"></strong></div>
+            </div>
+            <section class="overview">
+                <p class="eyebrow" id="district"></p>
+                <h2 id="route-name"></h2>
+                <h3>沿途一览</h3>
+                <dl>
+                    <div><dt>起点</dt><dd id="start"></dd></div>
+                    <div><dt>途经</dt><dd id="via"></dd></div>
+                    <div><dt>终点</dt><dd id="end"></dd></div>
+                </dl>
+                <p id="description" class="description"></p>
+            </section>
+            <footer class="detail-footer">
+                <p>耗时与难度为估算；地图仅供位置参考。</p>
+                <a id="source-link" class="source-link" target="_blank" rel="noopener noreferrer">资料来源 ↗</a>
+            </footer>
+            <p class="attribution">地图数据 © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a> · 底图 <a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a></p>
+        </article>
+    </main>
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

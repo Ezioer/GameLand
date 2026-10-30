@@ -142,6 +142,7 @@ internal fun AppNavigation(
     darkTheme: Boolean,
     tetrisMatch: TetrisMatch,
     modifier: Modifier = Modifier,
+    onCyclingWebClick: (() -> Unit)? = null,
 ) {
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route ?: AppRoute.Projects
@@ -250,7 +251,7 @@ internal fun AppNavigation(
             composable(AppRoute.Projects) {
                 ProjectsHomeScreen(
                     onGameIslandClick = { navController.navigate(AppRoute.Home) },
-                    onCyclingClick = { navController.navigate(AppRoute.ShenzhenCycling) },
+                    onCyclingClick = onCyclingWebClick ?: { navController.navigate(AppRoute.ShenzhenCycling) },
                 )
             }
             composable(AppRoute.ShenzhenCycling) {

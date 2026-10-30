@@ -4,8 +4,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun launchSudokuWeb() {
+fun launchSudokuWeb(onCyclingClick: () -> Unit) {
     ComposeViewport(viewportContainerId = "webApp") {
-        App()
+        App(onCyclingWebClick = onCyclingClick)
     }
 }
