@@ -29,7 +29,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun ProjectsHomeScreen(onGameIslandClick: () -> Unit) {
+internal fun ProjectsHomeScreen(
+    onGameIslandClick: () -> Unit,
+    onCyclingClick: () -> Unit,
+) {
     Column(
         Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
             .safeDrawingPadding().verticalScroll(rememberScrollState())
@@ -62,6 +65,31 @@ internal fun ProjectsHomeScreen(onGameIslandClick: () -> Unit) {
                     Icon(Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "进入益智小岛",
                         tint = MaterialTheme.colorScheme.primary)
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable(onClick = onCyclingClick),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+            ) {
+                Row(
+                    Modifier.fillMaxWidth().padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text("02", style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.Bold)
+                    Column(Modifier.weight(1f)) {
+                        Text("深圳骑行路线", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold)
+                        Text("沿海、河岸与山林的骑行灵感",
+                            style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "进入深圳骑行路线",
+                        tint = MaterialTheme.colorScheme.secondary)
                 }
             }
         }

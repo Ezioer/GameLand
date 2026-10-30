@@ -36,6 +36,7 @@ import com.zxq.sudoku.collection.CollectionGame
 import com.zxq.sudoku.collection.CollectionPlaySession
 import com.zxq.sudoku.collection.CollectionStatisticsScreen
 import com.zxq.sudoku.projects.ProjectsHomeScreen
+import com.zxq.sudoku.projects.cycling.ShenzhenCyclingScreen
 import com.zxq.sudoku.games.minesweeper.MinesweeperStatus
 import com.zxq.sudoku.games.chess.chessDestinations
 import com.zxq.sudoku.games.chess.ChessSession
@@ -71,6 +72,7 @@ import kotlinx.coroutines.delay
 
 internal object AppRoute {
     const val Projects = "projects"
+    const val ShenzhenCycling = "projects/shenzhen-cycling"
     const val Home = "home"
     const val Statistics = "statistics"
     const val Settings = "settings"
@@ -246,7 +248,14 @@ internal fun AppNavigation(
             },
         ) {
             composable(AppRoute.Projects) {
-                ProjectsHomeScreen(onGameIslandClick = { navController.navigate(AppRoute.Home) })
+                ProjectsHomeScreen(
+                    onGameIslandClick = { navController.navigate(AppRoute.Home) },
+                    onCyclingClick = { navController.navigate(AppRoute.ShenzhenCycling) },
+                )
+            }
+            composable(AppRoute.ShenzhenCycling) {
+                BackHandler { navController.navigateUp() }
+                ShenzhenCyclingScreen(onBack = { navController.navigateUp() })
             }
             composable(AppRoute.Home) {
                 BackHandler(onBack = returnToProjects)
