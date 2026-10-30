@@ -115,22 +115,12 @@ internal fun ShenzhenCyclingScreen(onBack: () -> Unit) {
             .safeDrawingPadding().padding(horizontal = 20.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            FilledTonalIconButton(onClick = onBack) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回项目首页")
-            }
-            Column(Modifier.padding(start = 12.dp)) {
-                Text("深圳骑行路线", style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold)
-                Text("选一条路线，去看看城市的另一面", style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
         BoxWithConstraints(Modifier.fillMaxSize()) {
             if (maxWidth >= 760.dp) {
                 Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(20.dp)) {
                     Column(Modifier.width(286.dp).verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        CyclingHeader(onBack)
                         Text("路线 · ${routes.size} 条", style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold)
                         routes.forEachIndexed { index, route ->
@@ -146,6 +136,7 @@ internal fun ShenzhenCyclingScreen(onBack: () -> Unit) {
             } else {
                 Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    CyclingHeader(onBack)
                     Text("路线 · ${routes.size} 条", style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold)
                     Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
@@ -158,6 +149,21 @@ internal fun ShenzhenCyclingScreen(onBack: () -> Unit) {
                     RouteDetail(routes[selectedIndex], Modifier.fillMaxWidth())
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun CyclingHeader(onBack: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        FilledTonalIconButton(onClick = onBack) {
+            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回项目首页")
+        }
+        Column(Modifier.padding(start = 12.dp)) {
+            Text("深圳骑行路线", style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold)
+            Text("选一条路线，去看看城市的另一面", style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -193,12 +199,6 @@ private fun RouteItem(
 private fun RouteDetail(route: CyclingRoute, modifier: Modifier = Modifier) {
     val uriHandler = LocalUriHandler.current
     Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(route.name, style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold)
-            Text("${route.district} · 路线位置图", style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
         Image(
             painter = painterResource(route.map),
             contentDescription = "${route.name}地图，${route.mapNote}",
