@@ -25,23 +25,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.zxq.sudoku.theme.green
 
 @Composable
 internal fun ProjectsHomeScreen(
     onGameIslandClick: () -> Unit,
     onCyclingClick: () -> Unit,
+    onAlbumsClick: () -> Unit,
+    onDrawToLifeClick: () -> Unit,
 ) {
     Column(
-        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.secondaryContainer)
             .safeDrawingPadding().verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp, vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Column(Modifier.widthIn(max = 760.dp).fillMaxWidth()) {
-            Text("muse-island", style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold)
+            Text(
+                "muse-island", style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(Modifier.height(12.dp))
             Card(
                 modifier = Modifier.fillMaxWidth().clickable(onClick = onGameIslandClick),
@@ -53,18 +59,26 @@ internal fun ProjectsHomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("01", style = MaterialTheme.typography.titleLarge,
+                    Text(
+                        "01", style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold
+                    )
                     Column(Modifier.weight(1f)) {
-                        Text("益智小岛", style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold)
-                        Text("数独、棋类与更多益智小游戏",
-                            style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            "益智小岛", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "数独、棋类与更多益智小游戏",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
-                    Icon(Icons.AutoMirrored.Filled.ArrowForward,
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "进入益智小岛",
-                        tint = MaterialTheme.colorScheme.primary)
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
             Spacer(Modifier.height(16.dp))
@@ -78,18 +92,75 @@ internal fun ProjectsHomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text("02", style = MaterialTheme.typography.titleLarge,
+                    Text(
+                        "02", style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.secondary,
-                        fontWeight = FontWeight.Bold)
+                        fontWeight = FontWeight.Bold
+                    )
                     Column(Modifier.weight(1f)) {
-                        Text("深圳骑行路线", style = MaterialTheme.typography.titleLarge,
+                        Text(
+                            "深圳骑行路线", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "沿海、河岸与山林的骑行灵感",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "进入深圳骑行路线",
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable(onClick = onAlbumsClick),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+            ) {
+                Row(
+                    Modifier.fillMaxWidth().padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        "03", style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.tertiary, fontWeight = FontWeight.Bold
+                    )
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            "电子相册", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text("收藏生活里的每一帧", style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "进入电子相册",
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable(onClick = onDrawToLifeClick),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFE7CC)),
+            ) {
+                Row(Modifier.fillMaxWidth().padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text("04", style = MaterialTheme.typography.titleLarge,
+                        color = Color(0xFF98633E), fontWeight = FontWeight.Bold)
+                    Column(Modifier.weight(1f)) {
+                        Text("DrawToLife", style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold)
-                        Text("沿海、河岸与山林的骑行灵感",
-                            style = MaterialTheme.typography.bodyMedium)
+                        Text("画一条鱼，让它游进小鱼缸", style = MaterialTheme.typography.bodyMedium)
                     }
                     Icon(Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = "进入深圳骑行路线",
-                        tint = MaterialTheme.colorScheme.secondary)
+                        contentDescription = "进入 DrawToLife", tint = Color(0xFF98633E))
                 }
             }
         }

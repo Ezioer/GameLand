@@ -11,6 +11,7 @@ import com.zxq.sudoku.games.sudoku.GamePalette
 internal val IslandGreen = Color(0xFF3D7567)
 internal val Sand = Color(0xFFFFF8E9)
 internal val Ink = Color(0xFF24483F)
+val green = Color(0xFFf7f9f3)
 
 @Composable
 internal fun IslandTheme(dark: Boolean, palette: GamePalette, content: @Composable () -> Unit) {

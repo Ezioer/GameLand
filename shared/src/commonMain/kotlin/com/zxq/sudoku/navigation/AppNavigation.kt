@@ -37,6 +37,9 @@ import com.zxq.sudoku.collection.CollectionPlaySession
 import com.zxq.sudoku.collection.CollectionStatisticsScreen
 import com.zxq.sudoku.projects.ProjectsHomeScreen
 import com.zxq.sudoku.projects.cycling.ShenzhenCyclingScreen
+import com.zxq.sudoku.projects.albums.AlbumsScreen
+import com.zxq.sudoku.projects.albums.CreateAlbumScreen
+import com.zxq.sudoku.projects.drawtolife.DrawToLifeScreen
 import com.zxq.sudoku.games.minesweeper.MinesweeperStatus
 import com.zxq.sudoku.games.chess.chessDestinations
 import com.zxq.sudoku.games.chess.ChessSession
@@ -73,6 +76,9 @@ import kotlinx.coroutines.delay
 internal object AppRoute {
     const val Projects = "projects"
     const val ShenzhenCycling = "projects/shenzhen-cycling"
+    const val Albums = "projects/albums"
+    const val CreateAlbum = "projects/albums/create"
+    const val DrawToLife = "projects/draw-to-life"
     const val Home = "home"
     const val Statistics = "statistics"
     const val Settings = "settings"
@@ -252,7 +258,22 @@ internal fun AppNavigation(
                 ProjectsHomeScreen(
                     onGameIslandClick = { navController.navigate(AppRoute.Home) },
                     onCyclingClick = onCyclingWebClick ?: { navController.navigate(AppRoute.ShenzhenCycling) },
+                    onAlbumsClick = { navController.navigate(AppRoute.Albums) },
+                    onDrawToLifeClick = { navController.navigate(AppRoute.DrawToLife) },
                 )
+            }
+            composable(AppRoute.Albums) {
+                BackHandler { navController.navigateUp() }
+                AlbumsScreen(onBack = { navController.navigateUp() },
+                    onCreate = { navController.navigate(AppRoute.CreateAlbum) })
+            }
+            composable(AppRoute.DrawToLife) {
+                BackHandler { navController.navigateUp() }
+                DrawToLifeScreen(onBack = { navController.navigateUp() })
+            }
+            composable(AppRoute.CreateAlbum) {
+                BackHandler { navController.navigateUp() }
+                CreateAlbumScreen(onBack = { navController.navigateUp() })
             }
             composable(AppRoute.ShenzhenCycling) {
                 BackHandler { navController.navigateUp() }
