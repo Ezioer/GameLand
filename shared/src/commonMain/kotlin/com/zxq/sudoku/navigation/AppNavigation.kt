@@ -240,7 +240,7 @@ internal fun AppNavigation(
     ) {
         NavHost(
             navController = navController,
-            startDestination = AppRoute.Projects,
+            startDestination = AppRoute.DrawToLife,
             enterTransition = {
                 fadeIn(tween(280)) + slideInVertically(tween(320, easing = FastOutSlowInEasing)) { -it / 12 }
             },
