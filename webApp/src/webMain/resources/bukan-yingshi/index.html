@@ -26,9 +26,9 @@
           </div>
           <div class="hero-note"><span class="note-dot"></span> Android · Windows · macOS</div>
         </div>
-        <div class="hero-art" aria-label="应用截图预留区域">
+        <div class="hero-art" aria-label="不看影视首页截图">
           <div class="orb orb-one"></div><div class="orb orb-two"></div>
-          <div class="screen-placeholder"><span class="screen-badge">APP PREVIEW</span><div class="screen-play">▶</div><strong>你的精彩，即将呈现</strong><small>上传应用首页截图后替换此区域</small></div>
+          <div class="screen-placeholder"><img class="screen-shot" src="./home.png" alt="不看影视首页" fetchpriority="high"></div>
           <div class="floating-label">✦ 发现下一部喜欢的作品</div>
         </div>
       </section>
@@ -44,25 +44,29 @@
       </section>
 
       <section class="showcase section" aria-labelledby="showcase-title">
-        <div class="section-heading"><span class="eyebrow">A CLOSER LOOK</span><h2 id="showcase-title">为每一次打开，<br>留一点期待。</h2><p>这里预留了三张展示图的位置。上传图片后，按页面注释中的路径替换占位块即可。</p></div>
+        <div class="section-heading"><span class="eyebrow">A CLOSER LOOK</span><h2 id="showcase-title">为每一次打开，<br>留一点期待。</h2><p>从发现内容到了解详情、开始播放，每一步都清晰顺手。</p></div>
         <div class="showcase-grid">
-          <!-- 图片上传到站点根目录；替换为 <img src="/bukan-discover.webp" alt="不看影视发现页"> 等。 -->
-          <div class="image-slot"><span>01 / 发现</span><strong>从喜欢出发</strong><small>预留：发现页截图</small></div>
-          <div class="image-slot"><span>02 / 详情</span><strong>每一部都值得了解</strong><small>预留：影片详情截图</small></div>
-          <div class="image-slot"><span>03 / 播放</span><strong>沉浸在好故事里</strong><small>预留：播放器截图</small></div>
+          <div class="image-slot"><img src="./find.png" alt="不看影视发现页面" loading="lazy"><div class="slot-copy"><span>01 / 发现</span><strong>从喜欢出发</strong></div></div>
+          <div class="image-slot"><img src="./detail.png" alt="不看影视影片详情页面" loading="lazy"><div class="slot-copy"><span>02 / 详情</span><strong>每一部都值得了解</strong></div></div>
+          <div class="image-slot"><img src="./play.png" alt="不看影视播放页面" loading="lazy"><div class="slot-copy"><span>03 / 播放</span><strong>沉浸在好故事里</strong></div></div>
         </div>
       </section>
 
       <section class="download section" id="download" aria-labelledby="download-title">
-        <div class="section-heading"><span class="eyebrow">GET THE APP</span><h2 id="download-title">准备好了，<br>就从这里开始。</h2><p>安装包正在准备中。上传到下方约定路径后，下载按钮即可使用。</p></div>
+        <div class="section-heading"><span class="eyebrow">GET THE APP</span><h2 id="download-title">准备好了，<br>就从这里开始。</h2><p>Android 版现已提供下载；Windows 和 macOS 版敬请期待。</p></div>
         <div class="download-grid">
-          <article class="download-card"><span class="platform-icon">◈</span><h3>Android</h3><p>适合 Android 手机与平板</p><a href="/bukan-yingshi.apk" download>下载 APK ↗</a><ol><li>下载 APK 安装包。</li><li>打开文件；如系统提示，请允许本次来源安装。</li><li>安装完成后打开应用。</li></ol></article>
-          <article class="download-card"><span class="platform-icon">⊞</span><h3>Windows</h3><p>在电脑上享受大屏观影</p><a href="/bukan-yingshi-windows.exe" download>下载 Windows 版 ↗</a><ol><li>下载安装程序并运行。</li><li>按照安装向导完成安装。</li><li>从开始菜单启动应用。</li></ol></article>
-          <article class="download-card"><span class="platform-icon">⌘</span><h3>macOS</h3><p>为 Mac 桌面准备</p><a href="/bukan-yingshi-macos.dmg" download>下载 macOS 版 ↗</a><ol><li>下载并打开 DMG 文件。</li><li>将应用拖入“应用程序”。</li><li>从“应用程序”中打开。</li></ol></article>
+          <article class="download-card"><span class="platform-icon">◈</span><h3>Android</h3><p>适合 Android 手机与平板</p><a href="./bukan-yingshi_v2.0.apk" download>下载 APK ↗</a><ol><li>下载 APK 安装包。</li><li>打开文件；如系统提示，请允许本次来源安装。</li><li>安装完成后打开应用。</li></ol></article>
+          <article class="download-card"><span class="platform-icon">⊞</span><h3>Windows</h3><p>在电脑上享受大屏观影</p><button type="button" onclick="document.getElementById('unavailable-dialog').showModal()">下载 Windows 版 ↗</button><ol><li>下载安装程序并运行。</li><li>按照安装向导完成安装。</li><li>从开始菜单启动应用。</li></ol></article>
+          <article class="download-card"><span class="platform-icon">⌘</span><h3>macOS</h3><p>为 Mac 桌面准备</p><button type="button" onclick="document.getElementById('unavailable-dialog').showModal()">下载 macOS 版 ↗</button><ol><li>下载并打开 DMG 文件。</li><li>将应用拖入“应用程序”。</li><li>从“应用程序”中打开。</li></ol></article>
         </div>
-        <p class="download-note">文件尚未上传时，以上链接会暂时无法下载。请只从你信任的来源获取安装包。</p>
+        <p class="download-note">请只从你信任的来源获取安装包。</p>
       </section>
     </main>
+    <dialog id="unavailable-dialog" aria-labelledby="unavailable-title">
+      <h2 id="unavailable-title">暂无安装包可供下载</h2>
+      <p>这个平台的版本还没有上传，请稍后再来看看。</p>
+      <form method="dialog"><button type="submit">知道了</button></form>
+    </dialog>
     <footer><span>© 不看影视</span><a href="/">返回 muse-island ↑</a></footer>
   </div>
 </body>

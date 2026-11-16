@@ -10,3 +10,13 @@
 @media(max-width:900px){.hero{grid-template-columns:1fr;padding-top:35px}.hero-art{height:410px}.feature-grid{grid-template-columns:repeat(2,1fr)}.download-grid{grid-template-columns:1fr}.showcase-grid{gap:12px}.image-slot{min-height:260px;padding:20px}}
 @media(max-width:620px){.topbar{height:70px}.hero{padding-bottom:65px}.hero h1{font-size:57px}.hero-copy>p{font-size:15px}.hero-art{height:350px}.orb-one{width:330px;height:330px}.orb-two{width:180px;height:180px}.screen-placeholder{height:310px;width:235px;border-width:7px;border-radius:27px}.screen-play{width:60px;height:60px;font-size:20px;margin-bottom:18px}.screen-placeholder strong{font-size:15px}.screen-placeholder small{font-size:10px}.floating-label{bottom:15px}.section{padding-top:75px;padding-bottom:75px}.features{border-radius:25px}.feature-grid{grid-template-columns:1fr 1fr;gap:10px}.feature-card{min-height:185px;padding:18px}.feature-card h3{font-size:16px;margin:20px 0 6px}.feature-card p{font-size:12px}.showcase-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.image-slot{min-width:78%;scroll-snap-align:center}footer{gap:15px}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}}
+.screen-placeholder{width:min(85%,400px);height:auto;aspect-ratio:2201/2268;overflow:hidden;transform:rotate(5deg)}
+.screen-shot{display:block;width:100%;height:100%;object-fit:contain}
+.image-slot{min-height:0;padding:0;display:block;position:relative;overflow:hidden;background:#eae8f3}
+.image-slot img{display:block;width:100%;height:auto}
+.slot-copy{position:absolute;inset:auto 0 0;padding:70px 24px 24px;background:linear-gradient(transparent,#211d35d9);color:#fff}
+.slot-copy span{display:block}.slot-copy strong{display:block;margin-bottom:0}
+@media(max-width:620px){.screen-placeholder{width:min(85%,300px);height:auto}.image-slot{min-height:0}}
+.download-card>a,.download-card>button{display:block;width:100%;padding:15px 18px;margin:26px 0;border:0;border-radius:13px;background:#786bd3;color:white;text-align:center;font:700 14px 'DM Sans','Noto Sans SC',sans-serif;cursor:pointer}
+.download-card>button:hover{background:#6659bf}.download-card>button:focus-visible,dialog button:focus-visible{outline:3px solid #8b7dea;outline-offset:3px}
+dialog{max-width:min(90vw,400px);padding:30px;border:0;border-radius:22px;box-shadow:0 24px 70px #24233740;color:#242337;font-family:inherit}dialog::backdrop{background:#211d3570}dialog h2{font-size:21px;margin-bottom:12px}dialog p{color:#77768a;line-height:1.7}dialog form{text-align:right;margin-top:24px}dialog button{padding:11px 20px;border:0;border-radius:11px;background:#786bd3;color:white;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
