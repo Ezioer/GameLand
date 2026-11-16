@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.zxq.sudoku.theme.green
@@ -37,6 +38,7 @@ internal fun ProjectsHomeScreen(
     onAlbumsClick: () -> Unit,
     onDrawToLifeClick: () -> Unit,
 ) {
+    val uriHandler = LocalUriHandler.current
     Column(
         Modifier.fillMaxSize().background(MaterialTheme.colorScheme.secondaryContainer)
             .safeDrawingPadding().verticalScroll(rememberScrollState())
@@ -161,6 +163,28 @@ internal fun ProjectsHomeScreen(
                     }
                     Icon(Icons.AutoMirrored.Filled.ArrowForward,
                         contentDescription = "进入 DrawToLife", tint = Color(0xFF98633E))
+                }
+            }
+            Spacer(Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable {
+                    uriHandler.openUri("https://muse-island.pages.dev/bukan-yingshi/")
+                },
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFE7E5F4)),
+            ) {
+                Row(Modifier.fillMaxWidth().padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text("05", style = MaterialTheme.typography.titleLarge,
+                        color = Color(0xFF5E587F), fontWeight = FontWeight.Bold)
+                    Column(Modifier.weight(1f)) {
+                        Text("不看影视", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold)
+                        Text("打开即用，发现喜欢的影视内容", style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "打开不看影视介绍页", tint = Color(0xFF5E587F))
                 }
             }
         }

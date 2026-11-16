@@ -155,30 +155,38 @@ internal fun AppNavigation(
     val activeGame = when {
         !isAppForeground -> null
         currentRoute == AppRoute.SudokuSingle && session.game?.finished == false &&
-            session.game?.paused == false && !session.showBeginnerTutorial &&
-            session.noteTutorialTarget == null -> CollectionGame.Sudoku
+                session.game?.paused == false && !session.showBeginnerTutorial &&
+                session.noteTutorialTarget == null -> CollectionGame.Sudoku
+
         currentRoute == AppRoute.SudokuBattle && session.battle?.finished == false &&
-            session.battle?.paused == false && !session.showBeginnerTutorial &&
-            session.noteTutorialTarget == null -> CollectionGame.Sudoku
+                session.battle?.paused == false && !session.showBeginnerTutorial &&
+                session.noteTutorialTarget == null -> CollectionGame.Sudoku
+
         (currentRoute.startsWith("${AppRoute.ChessHuman}/") ||
-            currentRoute == AppRoute.ChessFriend || currentRoute.startsWith("${AppRoute.ChessPuzzle}/")) &&
-            chessSession.game?.finished == false -> CollectionGame.ChineseChess
+                currentRoute == AppRoute.ChessFriend || currentRoute.startsWith("${AppRoute.ChessPuzzle}/")) &&
+                chessSession.game?.finished == false -> CollectionGame.ChineseChess
+
         (currentRoute.startsWith("${AppRoute.GomokuHuman}/") ||
-            currentRoute == AppRoute.GomokuFriend) && gomokuSession.game?.finished == false -> CollectionGame.Gomoku
+                currentRoute == AppRoute.GomokuFriend) && gomokuSession.game?.finished == false -> CollectionGame.Gomoku
+
         (currentRoute.startsWith("${AppRoute.GoHuman}/") ||
-            currentRoute == AppRoute.GoFriend) && goSession.game?.finished == false -> CollectionGame.Go
+                currentRoute == AppRoute.GoFriend) && goSession.game?.finished == false -> CollectionGame.Go
+
         currentRoute == AppRoute.Game2048Play && game2048Session.game?.finished == false &&
-            game2048Session.game?.won == false -> CollectionGame.Game2048
+                game2048Session.game?.won == false -> CollectionGame.Game2048
+
         currentRoute == AppRoute.SokobanPlay && sokobanSession.game?.completed == false -> CollectionGame.Sokoban
         currentRoute == AppRoute.KlotskiPlay && klotskiSession.game?.completed == false -> CollectionGame.Klotski
         (currentRoute.startsWith("${AppRoute.InternationalChessHuman}/") ||
-            currentRoute == AppRoute.InternationalChessFriend) &&
-            internationalChessSession.game?.finished == false -> CollectionGame.InternationalChess
+                currentRoute == AppRoute.InternationalChessFriend) &&
+                internationalChessSession.game?.finished == false -> CollectionGame.InternationalChess
+
         currentRoute == AppRoute.TetrisPlay && tetrisSession.game?.playable == true -> CollectionGame.Tetris
         currentRoute == AppRoute.TetrisMatchPlay && tetrisSession.game?.playable == true -> CollectionGame.Tetris
         currentRoute == AppRoute.MazePlay && mazeSession.game?.completed == false -> CollectionGame.Maze
         currentRoute == AppRoute.MinesweeperPlay && minesweeperSession.game?.started == true &&
-            minesweeperSession.game?.status == MinesweeperStatus.Playing -> CollectionGame.Minesweeper
+                minesweeperSession.game?.status == MinesweeperStatus.Playing -> CollectionGame.Minesweeper
+
         else -> null
     }
     LaunchedEffect(activeGame, playSession) {
@@ -240,7 +248,7 @@ internal fun AppNavigation(
     ) {
         NavHost(
             navController = navController,
-            startDestination = AppRoute.DrawToLife,
+            startDestination = AppRoute.Projects,
             enterTransition = {
                 fadeIn(tween(280)) + slideInVertically(tween(320, easing = FastOutSlowInEasing)) { -it / 12 }
             },
@@ -264,7 +272,8 @@ internal fun AppNavigation(
             }
             composable(AppRoute.Albums) {
                 BackHandler { navController.navigateUp() }
-                AlbumsScreen(onBack = { navController.navigateUp() },
+                AlbumsScreen(
+                    onBack = { navController.navigateUp() },
                     onCreate = { navController.navigate(AppRoute.CreateAlbum) })
             }
             composable(AppRoute.DrawToLife) {
@@ -301,10 +310,12 @@ internal fun AppNavigation(
             }
             composable(AppRoute.Settings) {
                 BackHandler(onBack = returnToMain)
-                SettingsScreen(appearance.mode, appearance.palette,
+                SettingsScreen(
+                    appearance.mode, appearance.palette,
                     onModeChange = { appearance.mode = it },
                     onPaletteChange = { appearance.palette = it },
-                    onBack = returnToMain)
+                    onBack = returnToMain
+                )
             }
             composable(AppRoute.Statistics) {
                 CollectionStatisticsScreen(
@@ -337,7 +348,8 @@ internal fun AppNavigation(
                     },
                 )
             }
-            sudokuDestinations(navController, session, returnToMain, darkTheme,
+            sudokuDestinations(
+                navController, session, returnToMain, darkTheme,
                 onPaletteChange = { palette ->
                     session.palette = palette
                     if (palette == GamePalette.Black) appearance.mode = ThemeMode.Dark
