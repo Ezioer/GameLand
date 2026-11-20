@@ -49,6 +49,7 @@ jobs:
           test -f webApp/build/dist/wasmJs/productionExecutable/index.html
           test -f webApp/build/dist/wasmJs/productionExecutable/cycling/index.html
           test -f webApp/build/dist/wasmJs/productionExecutable/bukan-yingshi/index.html
+          test -f webApp/build/dist/wasmJs/productionExecutable/yunan-trail/index.html
 
       - name: Ensure Pages production branch
         if: github.ref_name == 'xiaoqing-island'

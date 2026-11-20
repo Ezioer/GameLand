@@ -187,6 +187,28 @@ internal fun ProjectsHomeScreen(
                         contentDescription = "打开不看影视介绍页", tint = Color(0xFF5E587F))
                 }
             }
+            Spacer(Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth().clickable {
+                    uriHandler.openUri("https://muse-island.pages.dev/yunan-trail/")
+                },
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFE2EFE9)),
+            ) {
+                Row(Modifier.fillMaxWidth().padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text("06", style = MaterialTheme.typography.titleLarge,
+                        color = Color(0xFF3D7567), fontWeight = FontWeight.Bold)
+                    Column(Modifier.weight(1f)) {
+                        Text("云南徒步", style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold)
+                        Text("雪山徒步与摄影计划", style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Icon(Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = "打开云南徒步网站", tint = Color(0xFF3D7567))
+                }
+            }
         }
     }
 }
